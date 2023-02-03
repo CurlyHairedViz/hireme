@@ -1,2 +1,6 @@
 <h1>{{ title }}</h1>
-<p>This page will list all the employers Records.</p>
+<ul>
+    {{#each employers}}
+        <li>{{ this.name }}</li>
+    {{/each}}
+</ul>
