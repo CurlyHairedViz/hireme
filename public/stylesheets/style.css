@@ -15,8 +15,13 @@ main {
 
 .navbar-dark {
   background-color: #DB0007;
+  padding-left: 20px;
 }
 
 h1 {
   color: #062672;
+}
+
+.nav-link {
+  color: #ffffff;
 }
