@@ -8,6 +8,7 @@ const indexRouter = require('./controllers/index');
 const usersRouter = require('./controllers/users');
 // reference our new custom controller
 const employers = require('./controllers/employers');
+const cities = require('./controllers/cities');
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 // map all requests at /employers to our own employers.js controller
 app.use('/employers', employers);
+app.use('/cities', cities);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
