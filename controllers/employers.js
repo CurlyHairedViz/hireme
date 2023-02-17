@@ -99,5 +99,42 @@ router.get('/delete/:_id', (req, res) => {
     })
 });
 
+/* GET /edit/asb23 => fetch & display selected employer */
+router.get('/edit/:_id', (req, res) => {
+    Employer.findById(req.params._id, (err, employer) => {
+        if(err) {
+            console.log(err);
+        }
+        else {
+            City.find((err, cities) => {
+                if(err){
+                    console.log(err);
+                }
+                else {
+                    res.render('employers/edit', {
+                        employer: employer,
+                        title: 'Edit Emplyer Details',
+                        cities: cities
+                    });
+                }
+            }).sort('name');
+        }
+    });
+});
+
+
+/* POST /edit/abc123 => update selected employer */
+router.post('/edit/:_id', (req, res) => {
+    Employer.findByIdAndUpdate({ _id: req.params._id}, req.body, null ,(err)=>{
+        if(err) {
+            console.log(err);
+        }
+        else {
+            res.redirect('/employers');
+        }
+    });
+});
+
+
 // make public
 module.exports = router;
