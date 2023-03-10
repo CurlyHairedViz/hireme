@@ -57,7 +57,8 @@ router.get('/', (req, res) => {
             console.log(employers);
             res.render('employers/index', { 
                 title : 'Employer List',
-                employers: employers
+                employers: employers,
+                user: req.user
             });
         }
     });
@@ -73,7 +74,9 @@ router.get('/create', global.isAuthenticated, (req, res) => {
         }
         else{
             res.render('employers/create', {
-                cities: cities
+                cities: cities,
+                title: 'Create a New Employer',
+                user: req.user
             });
         }
     }).sort('name');
@@ -118,7 +121,8 @@ router.get('/edit/:_id', global.isAuthenticated, (req, res) => {
                     res.render('employers/edit', {
                         employer: employer,
                         title: 'Edit Emplyer Details',
-                        cities: cities
+                        cities: cities,
+                        user: req.user
                     });
                 }
             }).sort('name');

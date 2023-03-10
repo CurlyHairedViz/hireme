@@ -3,7 +3,10 @@ const router = express.Router();
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  res.render('index', { title: 'Express' });
+  res.render('index', { 
+    title: 'Express',
+    user: req.user 
+  });
 });
 
 /* GET /about */
@@ -13,7 +16,8 @@ router.get('/about', (req, res) => {
   
   res.render('about', { 
     date : date,
-    title: 'About this Site' 
+    title: 'About this Site',
+    user: req.user
   });
 });
 
