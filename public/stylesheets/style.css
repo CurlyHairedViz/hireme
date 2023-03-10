@@ -40,7 +40,11 @@ label {
   width: 150px;
 }
 
-thead{
+thead {
   color: #fff;
   background-color: #062672;
+}
+
+#imgShowHide {
+  cursor: pointer;
 }

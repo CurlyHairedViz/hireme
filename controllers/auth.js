@@ -4,7 +4,7 @@ const passport = require('passport');
 const User = require('../models/user');
 
 router.get('/register', (req, res) => {
-    let messages = req.session.messages;
+    let messages = req.session.messages?.message;
     // clear session error msg
     req.session.messages = [];
     res.render('auth/register', {
@@ -29,13 +29,13 @@ router.post('/register', (req, res) => {
             else {
                 res.redirect('/employers');
             }
-        })
+        });
 });
 
 router.get('/login', (req, res) => {
     let messages = req.session.messages;
     req.session.messages = [];
-    
+
     res.render('auth/login', {
         title: 'Login',
         messages: messages
@@ -47,5 +47,15 @@ router.post('/login', passport.authenticate('local', {
     failureRedirect: '/auth/login',
     failureMessage: 'Invalid Login'
 }));
+
+router.get('/logout', (req, res) => {
+    req.session.messages = [];
+    req.logout((err) => {
+        if (err) {
+            console.log(err);
+        }
+        res.redirect('/');
+    });
+});
 
 module.exports = router;
