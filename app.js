@@ -60,6 +60,24 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// Google auth strategy for passport
+// 1. authenticate google app w/api keys
+// 2. check if we already have this user w/this Google id in the users collection
+// 3. if user not found, create a new Google user in our user collection 
+const goolgeStrategy = require('passport-google-oauth20').Strategy;
+passport.use(new goolgeStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackUrl: process.env.GOOGLE_CLIENT_URL
+}, (accessToken, refreshToken, profile, done) => {
+  User.findOrCreate({oauthId: profile.id }, {
+    username: profile.displayName,
+    oauthProvider: 'Google'
+  }, (err, user) => {
+    return done(err, user);
+  })
+}));
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 // map all requests at /employers to our own employers.js controller
@@ -70,6 +88,7 @@ app.use('/auth', auth);
 // add hbs extension function to select the correct dropdown option when editing
 const hbs = require('hbs');
 const { route } = require('./controllers/cities');
+const { Callbacks } = require('jquery');
 hbs.registerHelper('selectOption', (currentValue, selectedValue) =>{
   let selectedProperty = '';
   if(currentValue == selectedValue) {
