@@ -64,11 +64,11 @@ passport.deserializeUser(User.deserializeUser());
 // 1. authenticate google app w/api keys
 // 2. check if we already have this user w/this Google id in the users collection
 // 3. if user not found, create a new Google user in our user collection 
-const goolgeStrategy = require('passport-google-oauth20').Strategy;
-passport.use(new goolgeStrategy({
+const googleStrategy = require('passport-google-oauth20').Strategy;
+passport.use(new googleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackUrl: process.env.GOOGLE_CLIENT_URL
+  callbackURL: process.env.GOOGLE_CALLBACK_URL
 }, (accessToken, refreshToken, profile, done) => {
   User.findOrCreate({oauthId: profile.id }, {
     username: profile.displayName,
@@ -77,6 +77,7 @@ passport.use(new goolgeStrategy({
     return done(err, user);
   })
 }));
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
